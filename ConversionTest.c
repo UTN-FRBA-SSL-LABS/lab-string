@@ -10,16 +10,14 @@
 
 int main(void) {
 
-    /* ── ToInteger ──────────────────────────────────────────────────────── */
-    /* TODO: descomentar y completar cuando implementes ToInteger */
-    /* assert(ToInteger("0") == 0); */
-    /* assert(ToInteger("1") == 1); */
-    /* assert(ToInteger("42") == 42); */
-    /* assert(ToInteger("-7") == -7); */
-    /* assert(ToInteger("100") == 100); */
+    /* ── ToInteger — tiene un bug, estos tests ya estan activos ─────────── */
+    assert(ToInteger("0") == 0);
+    assert(ToInteger("1") == 1);
+    assert(ToInteger("42") == 42);
+    assert(ToInteger("-7") == -7);
+    assert(ToInteger("100") == 100);
 
-    /* ── Operacion libre ────────────────────────────────────────────────── */
-    /* TODO */
+    /* ── Operacion libre — agregar tests aca ────────────────────────────── */
 
     return 0;
 }

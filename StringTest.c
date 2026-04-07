@@ -13,40 +13,36 @@
 
 int main(void) {
 
-    /* ── IsEmpty ────────────────────────────────────────────────────────── */
+    /* ── IsEmpty — ya implementada ──────────────────────────────────────── */
     assert(IsEmpty("") == 1);
     assert(IsEmpty("a") == 0);
     assert(IsEmpty("hola") == 0);
 
-    /* ── GetLength ──────────────────────────────────────────────────────── */
-    /* TODO: descomentar y completar cuando implementes GetLength */
+    /* ── GetLength — descomentar cuando implementes la funcion ──────────── */
     /* assert(GetLength("") == 0); */
     /* assert(GetLength("a") == 1); */
     /* assert(GetLength("hola") == 4); */
     /* assert(GetLength("hola mundo") == 10); */
 
-    /* ── AreEqual ───────────────────────────────────────────────────────── */
-    /* TODO */
-    /* assert(AreEqual("", "") == 1); */
-    /* assert(AreEqual("abc", "abc") == 1); */
-    /* assert(AreEqual("abc", "abd") == 0); */
-    /* assert(AreEqual("abc", "ab") == 0); */
+    /* ── AreEqual — tiene un bug, estos tests ya estan activos ──────────── */
+    assert(AreEqual("", "") == 1);
+    assert(AreEqual("abc", "abc") == 1);
+    assert(AreEqual("abc", "abd") == 0);
+    assert(AreEqual("abc", "ab") == 0);
+    assert(AreEqual("ab", "abc") == 0);
 
-    /* ── AreDecimalDigits ───────────────────────────────────────────────── */
-    /* TODO */
-    /* assert(AreDecimalDigits("0") == 1); */
-    /* assert(AreDecimalDigits("123") == 1); */
-    /* assert(AreDecimalDigits("12a") == 0); */
-    /* assert(AreDecimalDigits("") == 0); */
+    /* ── AreDecimalDigits — tiene un bug, estos tests ya estan activos ───── */
+    assert(AreDecimalDigits("0") == 1);
+    assert(AreDecimalDigits("123") == 1);
+    assert(AreDecimalDigits("12a") == 0);
+    assert(AreDecimalDigits("") == 0);
 
-    /* ── Contains ───────────────────────────────────────────────────────── */
-    /* TODO */
+    /* ── Contains — descomentar cuando implementes la funcion ───────────── */
     /* assert(Contains("hola", 'o') == 1); */
     /* assert(Contains("hola", 'z') == 0); */
     /* assert(Contains("", 'a') == 0); */
 
-    /* ── Operacion libre ────────────────────────────────────────────────── */
-    /* TODO */
+    /* ── Operacion libre — agregar tests aca ────────────────────────────── */
 
     return 0;
 }

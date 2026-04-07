@@ -264,18 +264,7 @@ _(escribí SI cuando todos los tests de GetLength pasen)_
 
 #### Tests
 
-Abrí `StringTest.c` y **descomentá** el bloque de `AreEqual`:
-
-```c
-/* ── AreEqual ───────────────────────────────────────────────────────────── */
-assert(AreEqual("", "") == 1);
-assert(AreEqual("abc", "abc") == 1);
-assert(AreEqual("abc", "abd") == 0);
-assert(AreEqual("abc", "ab") == 0);
-assert(AreEqual("ab", "abc") == 0);
-```
-
-Corré `make test`. Algunos tests van a pasar, pero dos van a fallar.
+Los tests de `AreEqual` ya están activos en `StringTest.c`. Corré `make test` — algunos van a fallar.
 
 #### El bug
 
@@ -324,15 +313,7 @@ _(escribí SI cuando todos los tests de AreEqual pasen)_
 
 #### Tests
 
-Abrí `StringTest.c` y **descomentá** el bloque de `AreDecimalDigits`:
-
-```c
-/* ── AreDecimalDigits ───────────────────────────────────────────────────── */
-assert(AreDecimalDigits("0") == 1);
-assert(AreDecimalDigits("123") == 1);
-assert(AreDecimalDigits("12a") == 0);
-assert(AreDecimalDigits("") == 0);
-```
+Los tests de `AreDecimalDigits` ya están activos en `StringTest.c`. Corré `make test`.
 
 Corré `make test`. Tres tests van a pasar pero uno va a fallar.
 
@@ -435,18 +416,7 @@ Antes de implementar, discutí con tu equipo:
 
 #### Tests
 
-Abrí `ConversionTest.c` y **descomentá** el bloque de `ToInteger`:
-
-```c
-/* ── ToInteger ──────────────────────────────────────────────────────────── */
-assert(ToInteger("0") == 0);
-assert(ToInteger("1") == 1);
-assert(ToInteger("42") == 42);
-assert(ToInteger("-7") == -7);
-assert(ToInteger("100") == 100);
-```
-
-Corré `make test`. Todos van a fallar.
+Los tests de `ToInteger` ya están activos en `ConversionTest.c`. Corré `make test` — todos van a fallar.
 
 #### El bug
 
@@ -582,7 +552,7 @@ Reemplazá el `NULL` con el valor correcto.
 
 ```bash
 make mayorlongitud
-./mayorlongitud corto largo
+./mayorlongitud uno largo
 ./mayorlongitud uno dos tres cuatro
 ```
 

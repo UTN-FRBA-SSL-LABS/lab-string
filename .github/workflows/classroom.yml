@@ -97,7 +97,7 @@ jobs:
         run: |
           gcc -Wall -Wextra -std=c99 -c String.c -o String.o
           gcc -Wall -Wextra -std=c99 mayorlongitud.c String.o -o mayorlongitud
-          ./mayorlongitud corto largo | grep -x "largo"
+          ./mayorlongitud uno largo | grep -x "largo"
 
       - name: "P4. todosiguales: salida correcta"
         if: always()
