@@ -85,16 +85,16 @@
       "timeout": 5, "points": 9
     },
     {
-      "name": "F1. AnálisisComparativo.md tiene contenido",
+      "name": "F1. AnalisisComparativo.md completado",
       "setup": "",
-      "run": "test -s AnálisisComparativo.md && grep -qv '^>' AnálisisComparativo.md",
+      "run": "test -s AnalisisComparativo.md && ! grep -q '(respuesta)' AnalisisComparativo.md",
       "input": "", "output": "", "comparison": "included",
       "timeout": 5, "points": 8
     },
     {
-      "name": "F2. String.md tiene especificaciones",
+      "name": "F2. String.md completado",
       "setup": "",
-      "run": "test -s String.md && grep -qv 'completar' String.md",
+      "run": "test -s String.md && ! grep -q 'completar' String.md",
       "input": "", "output": "", "comparison": "included",
       "timeout": 5, "points": 7
     }

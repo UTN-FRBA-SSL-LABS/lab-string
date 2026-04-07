@@ -15,127 +15,297 @@ Para trabajar local necesitás GCC y Make:
 
 Sin instalar nada: **GitHub Codespaces** → botón verde `<> Code` → pestaña `Codespaces`.
 
----
+Verificá que todo compila desde el estado inicial:
 
-## Estructura del proyecto
+```bash
+make test
+make all
+```
 
-```
-lab-string/
-├── String.h          ← interfaz de la biblioteca (prototipos + contratos)
-├── String.c          ← implementación (completar)
-├── StringTest.c      ← pruebas con assert (completar)
-├── Conversion.h      ← interfaz del módulo de conversión
-├── Conversion.c      ← implementación (completar)
-├── ConversionTest.c  ← pruebas con assert (completar)
-├── enlineas.c        ← programa completo (referencia)
-├── longitudes.c      ← programa (completar)
-├── mayorlongitud.c   ← programa (completar)
-├── todosiguales.c    ← programa (completar)
-├── suma.c            ← programa (completar)
-├── Makefile
-├── String.md         ← especificación matemática (completar)
-└── AnálisisComparativo.md  ← análisis (completar)
-```
+Si no hay errores, estás listo para empezar.
 
 ---
 
-## Restricciones generales
+## Restricciones (leer antes de arrancar)
 
-Estas restricciones aplican a todo el laboratorio:
+Aplican a todo el laboratorio:
 
-- **No usar `<string.h>`** ni funciones estándar de cadenas (`strlen`, `strcmp`, etc.)
-- **No usar `<stdlib.h>`** para conversiones (`atoi`, `strtol`, etc.)
+- **No usar `<string.h>`** ni funciones como `strlen`, `strcmp`, `strcpy`
+- **No usar `<stdlib.h>`** para conversiones (`atoi`, `strtol`)
 - Usar **`const`** en parámetros que no se modifican
 - Al menos **una función** de `String.c` debe implementarse con **recursividad**
-- Los tests usan **`assert`** — sin `printf`, sin salida a ningún flujo
-- Los tests usan **literales de cadena**, no variables (`assert(GetLength("hola") == 4)`)
+- Los tests usan **`assert`** — sin `printf`, sin salida de ningún tipo
+- Los tests usan **literales de cadena**, no variables
+  ✅ `assert(GetLength("hola") == 4)`
+  ❌ `char *s = "hola"; assert(GetLength(s) == 4)`
 - Los programas de la Parte III iteran con **puntero** (`char **arg`), no con índice entero
 
 ---
 
 ## Parte I — Análisis Comparativo
 
-Completá `AnálisisComparativo.md` comparando strings en C con otro lenguaje a elección.
+Abrí `AnalisisComparativo.md` y completá la comparación de strings en C versus un lenguaje de tu elección. El archivo ya tiene las 9 preguntas con espacio para responder.
 
-El archivo ya tiene las 9 preguntas. Respondé cada una para ambos lenguajes y agregá una conclusión al final.
+Podés hacerlo en cualquier momento del laboratorio.
 
 ---
 
 ## Parte II — Biblioteca String
 
-El orden de desarrollo para **cada operación** es:
+Para cada operación el ciclo es siempre el mismo:
 
 ```
 1. Especificación matemática en String.md
-2. Prototipo + pre/postcondiciones en String.h
-3. Tests en StringTest.c  (primero los tests — aunque fallen)
-4. Implementación en String.c
-5. make test  →  verificar que pasa
+2. Descomentar los tests en StringTest.c  →  make test  (va a fallar)
+3. Implementar en String.c               →  make test  (tiene que pasar)
 ```
 
-### Referencia: IsEmpty
-
-`IsEmpty` ya está implementada. Usala como referencia para entender la estructura.
-
-**String.h** define el contrato:
-```c
-/* IsEmpty: String -> Boolean
- * Pre:  s != NULL
- * Post: devuelve 1 si s es la cadena vacia, 0 si no */
-int IsEmpty(const char *s);
-```
-
-**StringTest.c** verifica el contrato con literales:
-```c
-assert(IsEmpty("") == 1);
-assert(IsEmpty("a") == 0);
-```
-
-**String.c** implementa:
-```c
-int IsEmpty(const char *s) {
-    return *s == '\0';
-}
-```
-
-### Operaciones a implementar
-
-En este orden:
-
-1. **`GetLength`** — usá recursividad aquí
-2. **`AreEqual`**
-3. **`AreDecimalDigits`**
-4. **`Contains`**
-5. **Una operación libre** — definila vos (ejemplos: `Reverse`, `ToUpper`, `StartsWith`, `Trim`)
-
-Para cada una: especificación en `String.md` → prototipo en `String.h` → tests en `StringTest.c` → implementación en `String.c`.
-
-### Correr los tests
+### Cómo correr los tests
 
 ```bash
 make test
 ```
 
-Si todos los assert pasan: silencio y exit 0. Si alguno falla: el programa imprime en qué línea y hace abort.
+Si todos los `assert` pasan: silencio total y exit 0. Si alguno falla: el programa imprime en qué línea falló y aborta.
 
-### Nota sobre Conversion
+---
 
-`ToInteger` está separada en `Conversion.h` / `Conversion.c` porque convierte entre tipos distintos (String → Integer). Antes de implementarla, discutí con tu equipo:
+### Operación 1: `GetLength`
+
+#### 1.1 Especificación
+
+La especificación matemática de `GetLength` ya está en `String.md`. Leela antes de continuar.
+
+#### 1.2 Tests
+
+Abrí `StringTest.c` y **descomentá** el bloque de `GetLength`:
+
+```c
+/* ── GetLength ──────────────────────────────────────────────────────────── */
+assert(GetLength("") == 0);
+assert(GetLength("a") == 1);
+assert(GetLength("hola") == 4);
+assert(GetLength("hola mundo") == 10);
+```
+
+Corré los tests:
+
+```bash
+make test
+```
+
+Deberían fallar porque la implementación todavía devuelve `0`.
+
+#### 1.3 Implementación
+
+`GetLength` es el candidato natural para la implementación **recursiva**. Completá los blancos en `String.c`:
+
+```c
+int GetLength(const char *s) {
+    if (IsEmpty(s))
+        return ____;               /* caso base: cadena vacía tiene longitud 0 */
+    return 1 + GetLength(s + ____); /* avanzar un caracter y contar */
+}
+```
+
+**P1** — ¿Por qué `s + 1` avanza un carácter en vez de acceder al índice 1?
+
+> R:
+
+Corré los tests de nuevo:
+
+```bash
+make test
+```
+
+```
+GETLENGTH_PASA=
+```
+_(SI o NO)_
+
+---
+
+### Operación 2: `AreEqual`
+
+#### 2.1 Especificación
+
+Completá en `String.md` la especificación de `AreEqual`. Tené en cuenta los casos:
+- ¿Qué pasa si las dos cadenas son vacías?
+- ¿Qué pasa si tienen distinta longitud?
+- ¿Qué pasa si difieren en un caracter?
+
+#### 2.2 Tests
+
+Descomentá el bloque de `AreEqual` en `StringTest.c`:
+
+```c
+/* ── AreEqual ───────────────────────────────────────────────────────────── */
+assert(AreEqual("", "") == 1);
+assert(AreEqual("abc", "abc") == 1);
+assert(AreEqual("abc", "abd") == 0);
+assert(AreEqual("abc", "ab") == 0);
+assert(AreEqual("ab", "abc") == 0);
+```
+
+Corré `make test` — va a fallar.
+
+#### 2.3 Implementación
+
+Completá `AreEqual` en `String.c`. Podés usar un `for` o recursividad.
+
+Pista: si los primeros caracteres son iguales y el resto también lo es, las cadenas son iguales.
+
+Corré `make test`.
+
+```
+AREEQUAL_PASA=
+```
+_(SI o NO)_
+
+---
+
+### Operación 3: `AreDecimalDigits`
+
+#### 3.1 Especificación
+
+Completá en `String.md`. Recordá que un dígito decimal es un caracter entre `'0'` y `'9'`, y que la cadena vacía no es un conjunto de dígitos decimales.
+
+#### 3.2 Tests
+
+Descomentá el bloque de `AreDecimalDigits` en `StringTest.c`:
+
+```c
+/* ── AreDecimalDigits ───────────────────────────────────────────────────── */
+assert(AreDecimalDigits("0") == 1);
+assert(AreDecimalDigits("123") == 1);
+assert(AreDecimalDigits("12a") == 0);
+assert(AreDecimalDigits("") == 0);
+```
+
+#### 3.3 Implementación
+
+Completá `AreDecimalDigits` en `String.c`.
+
+Pista: un caracter `c` es un dígito si `c >= '0' && c <= '9'`. Iterá con un `for` basado en puntero.
+
+**P2** — ¿Por qué la cadena vacía devuelve `0` y no `1`?
+
+> R:
+
+Corré `make test`.
+
+```
+AREDECIMALDIGITS_PASA=
+```
+_(SI o NO)_
+
+---
+
+### Operación 4: `Contains`
+
+Esta operación la escribís completamente vos.
+
+#### 4.1 Especificación
+
+Completá en `String.md`.
+
+#### 4.2 Tests
+
+Escribí al menos 4 tests en `StringTest.c` para `Contains`. Incluí casos borde.
+
+#### 4.3 Implementación
+
+Implementá `Contains` en `String.c`.
+
+Corré `make test`.
+
+```
+CONTAINS_PASA=
+```
+_(SI o NO)_
+
+---
+
+### Operación 5: Libre
+
+Elegí una operación e implementala de principio a fin:
+- Especificación en `String.md`
+- Prototipo + contrato en `String.h`
+- Tests en `StringTest.c`
+- Implementación en `String.c`
+
+Algunas ideas: `Reverse`, `ToUpperCase`, `StartsWith`, `Trim`, `IndexOf`.
+
+**P3** — ¿Qué operación elegiste y por qué?
+
+> R:
+
+```
+OPERACION_LIBRE=
+```
+_(nombre de la función)_
+
+---
+
+## Parte II.b — Módulo Conversion
+
+Antes de implementar, discutí con tu equipo:
 
 > ¿Es correcto que `ToInteger` sea parte de la biblioteca de Strings?
-> ¿O tiene más sentido separarla? ¿Por qué?
+> ¿O tiene más sentido en un módulo separado? ¿Por qué?
 
-Escribí la conclusión de la discusión acá:
+**P4** — Conclusión de la discusión:
 
-> R: (respuesta del equipo)
+> R:
+
+### `ToInteger`
+
+#### Tests
+
+Abrí `ConversionTest.c` y **descomentá** el bloque de `ToInteger`:
+
+```c
+/* ── ToInteger ──────────────────────────────────────────────────────────── */
+assert(ToInteger("0") == 0);
+assert(ToInteger("1") == 1);
+assert(ToInteger("42") == 42);
+assert(ToInteger("-7") == -7);
+assert(ToInteger("100") == 100);
+```
+
+Corré `make test` — va a fallar.
+
+#### Implementación
+
+Completá `ToInteger` en `Conversion.c`.
+
+Pista: iterá sobre los dígitos, acumulando el resultado. Para convertir un dígito carácter a entero: `c - '0'`.
+
+```c
+int ToInteger(const char *s) {
+    int signo = 1;
+    int resultado = 0;
+    if (*s == '-') { signo = ____; s++; }
+    for (; *s != '\0'; s++)
+        resultado = resultado * ____ + (*s - '0');
+    return signo * resultado;
+}
+```
+
+Corré `make test`.
+
+```
+TOINTEGER_PASA=
+```
+_(SI o NO)_
 
 ---
 
 ## Parte III — Programas con argumentos
 
-### Referencia: enlineas
+### Referencia: `enlineas`
 
-`enlineas.c` está completo. Leelo antes de arrancar con los demás:
+`enlineas.c` está completo. Leelo antes de seguir:
 
 ```c
 int main(int argc, char *argv[]) {
@@ -152,43 +322,154 @@ Puntos clave:
 - `char **arg = argv + 1` apunta al primer argumento real
 - `arg++` avanza al siguiente; `*arg != NULL` detecta el fin
 
-### Programas a implementar
-
-| Programa | Descripción | Usa |
-|---|---|---|
-| `longitudes` | longitud de cada argumento, una por línea | `GetLength` |
-| `mayorlongitud` | argumento con mayor longitud | `GetLength` |
-| `todosiguales` | `1` si todos iguales, `0` si no | `AreEqual` |
-| `suma` | suma de los argumentos como enteros | `ToInteger` |
-
-Compilar y probar todos:
+Probalo:
 
 ```bash
-make all
-./longitudes hola mundo      # → 4 / 5
-./mayorlongitud corto largo  # → largo
-./todosiguales a a a         # → 1
-./todosiguales a b           # → 0
-./suma 1 2 3                 # → 6
+make enlineas
+./enlineas hola mundo foo
 ```
+
+Salida esperada:
+```
+hola
+mundo
+foo
+```
+
+**P5** — En `enlineas`, `(void)argc` suprime un warning de compilación. ¿Por qué `argc` no se usa si el programa recibe argumentos?
+
+> R:
+
+---
+
+### Programa: `longitudes`
+
+Imprime la longitud de cada argumento, una por línea.
+
+Copiá este código en `longitudes.c` (reemplazando el TODO):
+
+```c
+int main(int argc, char *argv[]) {
+    (void)argc;
+    for (char **arg = argv + 1; *arg != NULL; arg++)
+        printf("%d\n", GetLength(____));  /* completar */
+    return 0;
+}
+```
+
+Compilá y probá:
+
+```bash
+make longitudes
+./longitudes hola mundo
+```
+
+Salida esperada:
+```
+4
+5
+```
+
+```
+LONGITUDES_PASA=
+```
+_(SI o NO)_
+
+---
+
+### Programa: `mayorlongitud`
+
+Imprime el argumento con mayor longitud. En caso de empate, el primero.
+
+Estructura sugerida para `mayorlongitud.c`:
+
+```c
+int main(int argc, char *argv[]) {
+    if (argc < 2) return 1;
+    char *mayor = argv[1];
+    for (char **arg = argv + 2; *arg != NULL; arg++)
+        if (GetLength(*arg) > GetLength(mayor))
+            mayor = ____;     /* completar */
+    printf("%s\n", mayor);
+    return 0;
+}
+```
+
+Compilá y probá:
+
+```bash
+make mayorlongitud
+./mayorlongitud corto largo
+./mayorlongitud uno dos tres
+```
+
+```
+MAYORLONGITUD_PASA=
+```
+_(SI o NO)_
+
+---
+
+### Programa: `todosiguales`
+
+Imprime `1` si todos los argumentos son iguales, `0` si no.
+
+Escribí `todosiguales.c` completo. Usá `AreEqual` de `String.h`.
+
+```bash
+make todosiguales
+./todosiguales igual igual igual   # → 1
+./todosiguales uno dos             # → 0
+```
+
+```
+TODOSIGUALES_PASA=
+```
+_(SI o NO)_
+
+---
+
+### Programa: `suma`
+
+Imprime la suma de todos los argumentos interpretados como enteros.
+
+Escribí `suma.c` completo. Usá `ToInteger` de `Conversion.h`.
+
+```bash
+make suma
+./suma 1 2 3    # → 6
+./suma -5 10    # → 5
+```
+
+```
+SUMA_PASA=
+```
+_(SI o NO)_
+
+---
+
+## Preguntas de reflexión
+
+**P6** — En C, un string es un arreglo de `char` terminado en `'\0'`. ¿Qué problema tendría `GetLength` si una cadena no terminara en `'\0'`?
+
+> R:
+
+**P7** — `IsEmpty` y `GetLength` resuelven el mismo problema de forma diferente: `IsEmpty("") == 1` y `GetLength("") == 0`. ¿Podrías implementar `IsEmpty` usando `GetLength`? ¿Tiene sentido hacerlo?
+
+> R:
+
+**P8** — `AreDecimalDigits` podría implementarse usando `Contains` repetido para cada dígito. ¿Por qué esa implementación sería incorrecta?
+
+> R:
 
 ---
 
 ## Entrega
-
-- [ ] `AnálisisComparativo.md` completo (9 preguntas respondidas + conclusión)
-- [ ] `String.md` con especificación matemática de todas las operaciones
-- [ ] `String.h` con prototipos, pre y postcondiciones
-- [ ] `String.c` con todas las operaciones implementadas (al menos una recursiva)
-- [ ] `StringTest.c` con tests descomentados y pasando
-- [ ] `Conversion.h`, `Conversion.c`, `ConversionTest.c` completos
-- [ ] Los 5 programas implementados y funcionando
-- [ ] `make test` pasa sin errores
-- [ ] `make all` compila sin errores ni warnings
-- [ ] Push a `main`
 
 ```bash
 git add .
 git commit -m "Implementacion completa del laboratorio strings"
 git push
 ```
+
+El CI corre automáticamente. En la pestaña **Actions** podés ver qué checks pasan y cuáles fallan.

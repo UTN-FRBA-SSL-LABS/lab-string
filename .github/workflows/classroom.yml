@@ -117,17 +117,17 @@ jobs:
 
       # ── Archivos con contenido ─────────────────────────────────────────────
 
-      - name: "F1. AnálisisComparativo.md tiene contenido"
+      - name: "F1. AnalisisComparativo.md completado"
         if: always()
         run: |
-          test -s AnálisisComparativo.md
-          grep -qv "^>" AnálisisComparativo.md
+          test -s AnalisisComparativo.md
+          ! grep -q "(respuesta)" AnalisisComparativo.md
 
-      - name: "F2. String.md tiene especificaciones"
+      - name: "F2. String.md completado"
         if: always()
         run: |
           test -s String.md
-          grep -qv "completar" String.md
+          ! grep -q "completar" String.md
 
       # ── Reporte final ──────────────────────────────────────────────────────
       - name: Resultado autograding
