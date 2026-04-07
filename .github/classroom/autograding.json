@@ -40,7 +40,7 @@
       "setup": "gcc -Wall -Wextra -std=c99 -c String.c -o String.o && gcc -Wall -Wextra -std=c99 StringTest.c String.o -o StringTest",
       "run": "./StringTest",
       "input": "", "output": "", "comparison": "included",
-      "timeout": 10, "points": 15
+      "timeout": 10, "points": 20
     },
     {
       "name": "T2. ConversionTest pasa",
@@ -89,14 +89,7 @@
       "setup": "",
       "run": "! grep -q '(respuesta)' readme.md",
       "input": "", "output": "", "comparison": "included",
-      "timeout": 5, "points": 8
-    },
-    {
-      "name": "F2. String.md completado",
-      "setup": "",
-      "run": "test -s String.md && ! grep -q 'completar' String.md",
-      "input": "", "output": "", "comparison": "included",
-      "timeout": 5, "points": 7
+      "timeout": 5, "points": 10
     }
   ]
 }

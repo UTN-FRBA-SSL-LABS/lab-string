@@ -377,28 +377,6 @@ _(escribí SI cuando todos los tests de Contains pasen)_
 
 ---
 
-### Función 5: Operación libre
-
-Elegí e implementá una operación de principio a fin:
-
-1. Especificación matemática en `String.md`
-2. Prototipo con pre/postcondiciones en `String.h`
-3. Tests en `StringTest.c`
-4. Implementación en `String.c`
-
-Ideas: `Reverse`, `ToUpperCase`, `StartsWith`, `Trim`, `IndexOf`, `Repeat`.
-
-**P6** — ¿Qué operación elegiste? ¿Por qué?
-
-> R:
-
-```
-OPERACION_LIBRE=
-```
-_(nombre de la función)_
-
----
-
 ## Parte II.b — Módulo Conversion
 
 Antes de implementar, discutí con tu equipo:
@@ -406,7 +384,7 @@ Antes de implementar, discutí con tu equipo:
 > ¿Tiene sentido que `ToInteger` sea parte de la biblioteca `String`?
 > ¿O es correcto tenerla en un módulo separado `Conversion`?
 
-**P7** — Conclusión de la discusión:
+**P6** — Conclusión de la discusión:
 
 > R:
 
@@ -433,7 +411,7 @@ int ToInteger(const char *s) {
 }
 ```
 
-**P8** — El loop acumula correctamente el valor en `resultado`. ¿Qué está mal en el `return`?
+**P7** — El loop acumula correctamente el valor en `resultado`. ¿Qué está mal en el `return`?
 
 > R:
 
@@ -445,7 +423,7 @@ Corregí la última línea de `ToInteger` en `Conversion.c`.
 make test
 ```
 
-**P9** — La expresión `*s - '0'` convierte un carácter dígito al entero correspondiente. ¿Por qué funciona? ¿Qué devuelve `'3' - '0'`?
+**P8** — La expresión `*s - '0'` convierte un carácter dígito al entero correspondiente. ¿Por qué funciona? ¿Qué devuelve `'3' - '0'`?
 
 > R:
 
@@ -501,7 +479,7 @@ mundo
 foo
 ```
 
-**P10** — ¿Por qué `(void)argc` suprime un warning? ¿Cuándo sería necesario usar `argc`?
+**P9** — ¿Por qué `(void)argc` suprime un warning? ¿Cuándo sería necesario usar `argc`?
 
 > R:
 
@@ -601,15 +579,15 @@ _(SI o NO)_
 
 ## Preguntas de reflexión
 
-**P11** — `GetLength` es recursiva pero en C una llamada recursiva consume un stack frame. Si llamaras `GetLength` con un string de 1.000.000 de caracteres, ¿qué pasaría? ¿Cómo lo resolverías?
+**P10** — `GetLength` es recursiva pero en C una llamada recursiva consume un stack frame. Si llamaras `GetLength` con un string de 1.000.000 de caracteres, ¿qué pasaría? ¿Cómo lo resolverías?
 
 > R:
 
-**P12** — En la Parte III, todos los programas usan `char **arg` para iterar en vez de un índice entero. ¿Qué ventaja tiene este estilo? ¿Cuándo sería preferible usar el índice?
+**P11** — En la Parte III, todos los programas usan `char **arg` para iterar en vez de un índice entero. ¿Qué ventaja tiene este estilo? ¿Cuándo sería preferible usar el índice?
 
 > R:
 
-**P13** — En C, `"hola"` es un literal de tipo `const char *`. Si intentaras modificar un carácter con `s[0] = 'H'`, el comportamiento es indefinido. ¿Por qué? ¿En qué parte de la memoria viven los literales?
+**P12** — En C, `"hola"` es un literal de tipo `const char *`. Si intentaras modificar un carácter con `s[0] = 'H'`, el comportamiento es indefinido. ¿Por qué? ¿En qué parte de la memoria viven los literales?
 
 > R:
 
@@ -617,13 +595,11 @@ _(SI o NO)_
 
 ## Entrega
 
-- [ ] `AnalisisComparativo.md` completado
-- [ ] `String.md` con especificaciones de todas las operaciones
-- [ ] `String.c` con todas las funciones implementadas y tests pasando
-- [ ] `Conversion.c` con `ToInteger` corregida y tests pasando
-- [ ] `make test` sin errores
-- [ ] Los 5 programas funcionando: `make all`
-- [ ] Push a `main`
+- `String.c` con todas las funciones implementadas y tests pasando
+- `Conversion.c` con `ToInteger` corregida y tests pasando
+- `make test` sin errores
+- Los 5 programas funcionando: `make all`
+- Push a `main`
 
 ```bash
 git add .

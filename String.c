@@ -51,6 +51,3 @@ int Contains(const char *s, char c) {
     return 0;  /* reemplazar con la implementacion */
 }
 
-/* ── Operacion libre — definir en String.h y testear en StringTest.c ─────── */
-
-/* TODO */

@@ -36,7 +36,5 @@ int AreDecimalDigits(const char *s);
  * Post: devuelve 1 si el caracter c aparece al menos una vez en s */
 int Contains(const char *s, char c);
 
-/* TODO: agregar una operacion a definir libremente.
- * Documentar Pre, Post y firma antes del prototipo. */
 
 #endif

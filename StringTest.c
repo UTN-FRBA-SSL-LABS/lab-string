@@ -42,7 +42,5 @@ int main(void) {
     /* assert(Contains("hola", 'z') == 0); */
     /* assert(Contains("", 'a') == 0); */
 
-    /* ── Operacion libre — agregar tests aca ────────────────────────────── */
-
     return 0;
 }

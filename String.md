@@ -1,5 +1,7 @@
 # Especificación de la Biblioteca String
 
+Este archivo es una **referencia**: describe matemáticamente qué debe hacer cada función. Usalo para entender la especificación antes de leer o modificar el código.
+
 ## Notación
 
 | Símbolo | Significado |
@@ -43,11 +45,15 @@ GetLength(s)   = 1 + GetLength(s[1..])   si s ≠ ε
 
 **Signatura:** `AreEqual : String × String → 𝔹`
 
-**Especificación:** (completar)
+**Especificación:**
+```
+AreEqual(ε, ε)   = 1
+AreEqual(ε, t)   = 0                                          si t ≠ ε
+AreEqual(s, ε)   = 0                                          si s ≠ ε
+AreEqual(s, t)   = (s[0] = t[0]) ∧ AreEqual(s[1..], t[1..])  si s ≠ ε ∧ t ≠ ε
+```
 
-```
-AreEqual(s, t) = ...
-```
+Dos cadenas son iguales si y solo si tienen la misma longitud y los mismos caracteres en el mismo orden.
 
 ---
 
@@ -55,11 +61,14 @@ AreEqual(s, t) = ...
 
 **Signatura:** `AreDecimalDigits : String → 𝔹`
 
-**Especificación:** (completar)
+**Especificación:**
+```
+AreDecimalDigits(ε)   = 0
+AreDecimalDigits(s)   = (s[0] ∈ {'0'..'9'}) ∧ AreDecimalDigits(s[1..])   si |s| > 1
+AreDecimalDigits(s)   = (s[0] ∈ {'0'..'9'})                               si |s| = 1
+```
 
-```
-AreDecimalDigits(s) = ...
-```
+La cadena vacía **no** es un conjunto válido de dígitos: se requiere al menos un carácter.
 
 ---
 
@@ -67,18 +76,11 @@ AreDecimalDigits(s) = ...
 
 **Signatura:** `Contains : String × Char → 𝔹`
 
-**Especificación:** (completar)
-
+**Especificación:**
 ```
-Contains(s, c) = ...
+Contains(ε, c)   = 0
+Contains(s, c)   = 1                    si s[0] = c
+Contains(s, c)   = Contains(s[1..], c)  si s[0] ≠ c
 ```
 
----
-
-## Operación libre
-
-**Nombre:** (definir)
-
-**Signatura:** (completar)
-
-**Especificación:** (completar)
+Devuelve 1 si el carácter `c` aparece al menos una vez en `s`.
