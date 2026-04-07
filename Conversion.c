@@ -1,17 +1,22 @@
 #include "Conversion.h"
-#include "String.h"
 
 /*
  * Conversion.c — Implementacion de operaciones de conversion
  *
- * Restriccion: no usar funciones estandar de cadenas o conversion
- * (ni <string.h> ni <stdlib.h> para atoi/strtol).
+ * REGLA: no usar atoi, strtol ni ninguna funcion estandar de conversion
  */
 
+/* ── ToInteger — completar siguiendo el readme.md ───────────────────────── */
+
 int ToInteger(const char *s) {
-    /* TODO */
-    (void)s;
-    return 0;
+    int signo     = 1;
+    int resultado = 0;
+    if (*s == '-') { signo = -1; s++; }
+    for (; *s != '\0'; s++)
+        resultado = resultado * 10 + (*s - '0');
+    return signo; /* bug: falta multiplicar signo por resultado */
 }
 
-/* TODO: implementar la operacion libre definida en Conversion.h */
+/* ── Operacion libre ─────────────────────────────────────────────────────── */
+
+/* TODO */

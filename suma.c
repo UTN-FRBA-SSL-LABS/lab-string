@@ -4,18 +4,11 @@
 /*
  * suma — imprime la suma de todos los argumentos interpretados como enteros.
  *
- * Uso: ./suma 1 2 3
- * Salida:
- *   6
+ * Uso: ./suma 1 2 3    →  6
+ *      ./suma -5 10    →  5
  *
- * Uso: ./suma -5 10
- * Salida:
- *   5
- *
- * Restricciones:
- *   - Usar ToInteger de Conversion.h (no atoi ni strtol)
- *   - Iterar con puntero, no con indice entero
- *   - Asumir que todos los argumentos son enteros validos
+ * Pista: usa ToInteger de Conversion.h para convertir cada argumento.
+ *        Iterá con puntero (char **arg), no con indice entero.
  */
 
 int main(int argc, char *argv[]) {

@@ -3,39 +3,54 @@
 /*
  * String.c — Implementacion de la biblioteca String
  *
- * Restriccion: no usar funciones de <string.h>
- * Recordatorio: al menos una funcion debe implementarse con recursividad.
+ * REGLAS:
+ *   - No usar <string.h> ni ninguna funcion estandar de cadenas
+ *   - Al menos una funcion debe usar recursividad
+ *   - Usar const en parametros que no se modifican
  */
 
-/* IsEmpty esta implementada como referencia.
- * Las demas son TODO. */
+/* ── IsEmpty — ya implementada, leerla antes de arrancar ────────────────── */
 
 int IsEmpty(const char *s) {
     return *s == '\0';
 }
 
+/* ── GetLength — implementar siguiendo el readme.md ─────────────────────── */
+
 int GetLength(const char *s) {
-    /* TODO: implementar — sugerencia: usar recursividad */
     (void)s;
-    return 0;
+    return -1;  /* reemplazar con la implementacion */
 }
+
+/* ── AreEqual — tiene un bug, encontrarlo y corregirlo ──────────────────── */
 
 int AreEqual(const char *s1, const char *s2) {
-    /* TODO */
-    (void)s1; (void)s2;
-    return 0;
+    while (!IsEmpty(s1) && !IsEmpty(s2)) {
+        if (*s1 != *s2)
+            return 0;
+        s1++;
+        s2++;
+    }
+    return 1;  /* bug: ¿que pasa si una cadena es mas larga que la otra? */
 }
+
+/* ── AreDecimalDigits — tiene un bug, encontrarlo y corregirlo ───────────── */
 
 int AreDecimalDigits(const char *s) {
-    /* TODO */
-    (void)s;
-    return 0;
+    if (IsEmpty(s)) return 1;  /* bug: ¿que deberia devolver para cadena vacia? */
+    for (const char *p = s; !IsEmpty(p); p++)
+        if (*p < '0' || *p > '9')
+            return 0;
+    return 1;
 }
+
+/* ── Contains — implementar completo ────────────────────────────────────── */
 
 int Contains(const char *s, char c) {
-    /* TODO */
     (void)s; (void)c;
-    return 0;
+    return 0;  /* reemplazar con la implementacion */
 }
 
-/* TODO: implementar la operacion libre definida en String.h */
+/* ── Operacion libre — definir en String.h y testear en StringTest.c ─────── */
+
+/* TODO */

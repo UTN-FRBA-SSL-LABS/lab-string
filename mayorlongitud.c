@@ -8,14 +8,14 @@
  * Uso: ./mayorlongitud corto largo
  * Salida:
  *   largo
- *
- * Restricciones:
- *   - Usar GetLength de String.h
- *   - Iterar con puntero, no con indice entero
  */
 
 int main(int argc, char *argv[]) {
-    (void)argc; (void)argv;
-    /* TODO */
+    if (argc < 2) return 1;
+    char *mayor = argv[1];
+    for (char **arg = argv + 2; *arg != NULL; arg++)
+        if (GetLength(*arg) > GetLength(mayor))
+            mayor = NULL; /* completar: ¿que deberia guardarse en mayor? */
+    printf("%s\n", mayor);
     return 0;
 }

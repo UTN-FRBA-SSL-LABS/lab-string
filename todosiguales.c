@@ -4,17 +4,11 @@
 /*
  * todosiguales — imprime 1 si todos los argumentos son iguales, 0 si no.
  *
- * Uso: ./todosiguales hola hola hola
- * Salida:
- *   1
+ * Uso: ./todosiguales hola hola hola  →  1
+ *      ./todosiguales hola mundo      →  0
  *
- * Uso: ./todosiguales hola mundo
- * Salida:
- *   0
- *
- * Restricciones:
- *   - Usar AreEqual de String.h
- *   - Iterar con puntero, no con indice entero
+ * Pista: compara cada argumento contra argv[1] usando AreEqual.
+ *        Iterá con puntero (char **arg), no con indice entero.
  */
 
 int main(int argc, char *argv[]) {

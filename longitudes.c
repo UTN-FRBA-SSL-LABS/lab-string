@@ -2,20 +2,17 @@
 #include "String.h"
 
 /*
- * longitudes — imprime la longitud de cada argumento, uno por linea.
+ * longitudes — imprime la longitud de cada argumento, una por linea.
  *
  * Uso: ./longitudes hola mundo
  * Salida:
  *   4
  *   5
- *
- * Restricciones:
- *   - Usar GetLength de String.h (no strlen ni ninguna funcion estandar)
- *   - Iterar con puntero, no con indice entero
  */
 
 int main(int argc, char *argv[]) {
-    (void)argc; (void)argv;
-    /* TODO */
+    (void)argc;
+    for (char **arg = argv + 1; *arg != NULL; arg++)
+        printf("%d\n", 0); /* completar: reemplazar 0 con la longitud de *arg */
     return 0;
 }
