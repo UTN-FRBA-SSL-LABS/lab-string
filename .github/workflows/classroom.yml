@@ -117,11 +117,9 @@ jobs:
 
       # ── Archivos con contenido ─────────────────────────────────────────────
 
-      - name: "F1. AnalisisComparativo.md completado"
+      - name: "F1. readme.md análisis completado"
         if: always()
-        run: |
-          test -s AnalisisComparativo.md
-          ! grep -q "(respuesta)" AnalisisComparativo.md
+        run: "! grep -q '(respuesta)' readme.md"
 
       - name: "F2. String.md completado"
         if: always()

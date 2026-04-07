@@ -85,9 +85,9 @@
       "timeout": 5, "points": 9
     },
     {
-      "name": "F1. AnalisisComparativo.md completado",
+      "name": "F1. readme.md análisis completado",
       "setup": "",
-      "run": "test -s AnalisisComparativo.md && ! grep -q '(respuesta)' AnalisisComparativo.md",
+      "run": "! grep -q '(respuesta)' readme.md",
       "input": "", "output": "", "comparison": "included",
       "timeout": 5, "points": 8
     },
