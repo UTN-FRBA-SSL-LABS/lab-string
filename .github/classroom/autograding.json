@@ -40,14 +40,14 @@
       "setup": "gcc -Wall -Wextra -std=c99 -c String.c -o String.o && gcc -Wall -Wextra -std=c99 StringTest.c String.o -o StringTest",
       "run": "./StringTest",
       "input": "", "output": "", "comparison": "included",
-      "timeout": 10, "points": 20
+      "timeout": 10, "points": 25
     },
     {
       "name": "T2. ConversionTest pasa",
       "setup": "gcc -Wall -Wextra -std=c99 -c String.c -o String.o && gcc -Wall -Wextra -std=c99 -c Conversion.c -o Conversion.o && gcc -Wall -Wextra -std=c99 ConversionTest.c Conversion.o String.o -o ConversionTest",
       "run": "./ConversionTest",
       "input": "", "output": "", "comparison": "included",
-      "timeout": 10, "points": 10
+      "timeout": 10, "points": 15
     },
     {
       "name": "P1. enlineas: salida correcta",
@@ -83,13 +83,6 @@
       "run": "./suma 1 2 3 | grep -x '6'",
       "input": "", "output": "", "comparison": "included",
       "timeout": 5, "points": 9
-    },
-    {
-      "name": "F1. readme.md análisis completado",
-      "setup": "",
-      "run": "! grep -q '(respuesta)' readme.md",
-      "input": "", "output": "", "comparison": "included",
-      "timeout": 5, "points": 10
     }
   ]
 }

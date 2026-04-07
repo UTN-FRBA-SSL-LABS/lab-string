@@ -1,9 +1,5 @@
 # Laboratorio: Strings en C
 
-**Nombre:** ___________________________
-**Legajo:** ___________________________
-**Fecha:**  ___________________________
-
 ---
 
 ## Antes de empezar
@@ -41,125 +37,90 @@ Aplican a **todo** el laboratorio sin excepción:
 
 ---
 
-## Parte I — Análisis Comparativo
+## Parte I — Análisis Comparativo: C vs Python
 
-Comparación de strings en C vs otro lenguaje de tu elección. Completá cada ítem.
-
-**Lenguaje elegido para comparar:** ___________________________
+Esta sección compara cómo cada lenguaje trata el tipo string. Leé cada punto antes de arrancar con el código — entender estas diferencias es el contexto del laboratorio.
 
 ---
 
 ### 1. ¿El tipo es parte del lenguaje en algún nivel?
 
-**C:**
+**C:** No existe un tipo `string` en el lenguaje. Un string es un arreglo de `char` con una convención: termina en el carácter nulo `'\0'`. El lenguaje provee literales de cadena (`"hola"`) que son objetos reales almacenados en memoria estática de solo lectura, y permite inicializar arreglos con ellos — pero no hay un tipo propiamente dicho ni operadores que operen sobre él.
 
-> (respuesta)
-
-**___ (otro lenguaje):**
-
-> (respuesta)
+**Python:** `str` es un tipo nativo del lenguaje con soporte sintáctico de primera clase: literales con comillas simples o dobles, triple-quoted strings, f-strings, y operadores `+`, `*`, `in`, entre otros.
 
 ---
 
 ### 2. ¿El tipo es parte de la biblioteca?
 
-**C:**
+**C:** `<string.h>` provee funciones para operar sobre strings (`strlen`, `strcpy`, `strcmp`, etc.), pero el tipo en sí no es de ninguna biblioteca — es solo `char *`. En este laboratorio no usamos `<string.h>`: implementamos las operaciones nosotros.
 
-> (respuesta)
-
-**___:**
-
-> (respuesta)
+**Python:** `str` está definido en el runtime de Python. Sus métodos (`upper()`, `split()`, `find()`, etc.) son parte del objeto mismo, no de una biblioteca separada que haya que importar.
 
 ---
 
 ### 3. ¿Qué alfabeto usa?
 
-**C:**
+**C:** Cada `char` ocupa 1 byte y representa un valor entre 0 y 255. El estándar solo garantiza ASCII (0–127). UTF-8 se puede almacenar como bytes, pero el lenguaje no tiene awareness de codificación: `strlen` cuenta bytes, no caracteres.
 
-> (respuesta)
-
-**___:**
-
-> (respuesta)
+**Python:** Desde Python 3, `str` usa Unicode. Cada carácter es un code point Unicode (puede representar cualquier símbolo del mundo). Internamente Python elige entre UTF-8, UCS-2 o UCS-4 según el contenido, pero esto es transparente al programador.
 
 ---
 
 ### 4. ¿Cómo se resuelve la alocación de memoria?
 
-**C:**
+**C:** Manual. El programador decide dónde vive el string:
+- En el **stack**: `char s[] = "hola"` — válido solo mientras el stack frame existe.
+- En memoria **estática**: un literal `"hola"` — vive toda la ejecución, pero es de solo lectura.
+- En el **heap**: `malloc(n)` — el programador debe liberar con `free`.
 
-> (respuesta)
-
-**___:**
-
-> (respuesta)
+**Python:** Automática. El garbage collector (reference counting + cycle collector) maneja la vida útil de cada objeto string. El programador nunca llama a `malloc` ni `free`.
 
 ---
 
 ### 5. ¿El tipo tiene mutabilidad o es inmutable?
 
-**C:**
+**C:** Depende de cómo se creó. Un arreglo (`char s[] = "hola"`) es mutable: se puede modificar `s[0] = 'H'`. Un literal de cadena (`char *s = "hola"`) es de solo lectura: modificarlo es comportamiento indefinido.
 
-> (respuesta)
-
-**___:**
-
-> (respuesta)
+**Python:** Los strings son **inmutables**. Cualquier operación que "modifica" un string crea un nuevo objeto. `s = s.upper()` no modifica `s` — reasigna la variable a un nuevo string.
 
 ---
 
 ### 6. ¿El tipo es un *first class citizen*?
 
-**C:**
+**C:** No completamente. No se puede asignar un string con `=` (excepto en la inicialización), ni comparar con `==` (compara punteros, no contenido), ni copiar con `=`. Hay que usar funciones (`strcpy`, `strcmp`) o implementarlas.
 
-> (respuesta)
-
-**___:**
-
-> (respuesta)
+**Python:** Sí. Un string se puede asignar, comparar, pasar como argumento, retornar, incluir en colecciones y usar en expresiones exactamente igual que un entero o un booleano.
 
 ---
 
-### 7. ¿Cuál es la mecánica para ese tipo cuando se los pasa como argumentos?
+### 7. ¿Cuál es la mecánica para ese tipo cuando se pasa como argumento?
 
-**C:**
+**C:** Se pasa un **puntero** (`const char *`). La función recibe la dirección del primer carácter — no una copia del contenido. Si la función declara el parámetro `const`, el compilador impide modificaciones. Si no lo declara, puede modificar el original.
 
-> (respuesta)
-
-**___:**
-
-> (respuesta)
+**Python:** Se pasa una **referencia** al objeto. Como los strings son inmutables, no hay riesgo de modificación accidental: cualquier "modificación" dentro de la función crea un nuevo objeto local.
 
 ---
 
 ### 8. ¿Y cuando son retornados por una función?
 
-**C:**
+**C:** Se retorna un puntero. El programador debe garantizar que la memoria siga siendo válida: retornar un puntero a una variable local del stack es un bug clásico (dangling pointer). La solución habitual es alocar en el heap con `malloc` y documentar que el llamador debe liberar.
 
-> (respuesta)
-
-**___:**
-
-> (respuesta)
+**Python:** Se retorna una referencia. El garbage collector mantiene el objeto vivo mientras haya al menos una referencia activa. No hay riesgo de dangling pointers.
 
 ---
 
 ### 9. ¿Qué nivel de soporte tiene para ASCII, Unicode y UTF-8?
 
-**C:**
+**C:** Soporte nativo solo para ASCII. UTF-8 se puede almacenar como bytes pero las funciones de `<string.h>` operan byte a byte, sin ninguna conciencia de codificación: `strlen("ñ")` devuelve 2, no 1. Para Unicode completo se necesitan bibliotecas externas (ICU) o el tipo `wchar_t` con `<wchar.h>`.
 
-> (respuesta)
-
-**___:**
-
-> (respuesta)
+**Python:** Soporte nativo completo para Unicode desde Python 3. Los literales son Unicode por defecto. La E/S usa UTF-8 por defecto. `len("ñ")` devuelve 1. `encode()` y `decode()` permiten convertir explícitamente entre strings y bytes en cualquier codificación.
 
 ---
 
 ### Conclusión
 
-> (síntesis comparativa — al menos un párrafo)
+C trata los strings como una convención sobre memoria cruda: son punteros a secuencias de bytes terminadas en `'\0'`. El programador tiene control total — y responsabilidad total — sobre la memoria, la codificación y las operaciones. Python trata los strings como objetos de alto nivel: inmutables, Unicode, con gestión automática de memoria y una biblioteca rica integrada. La diferencia no es solo de comodidad: refleja filosofías distintas sobre dónde debe vivir la complejidad. En C, el programador construye las abstracciones; en Python, el lenguaje las provee. Este laboratorio implementa desde cero algunas de esas abstracciones para entender qué hay debajo.
 
 ---
 
