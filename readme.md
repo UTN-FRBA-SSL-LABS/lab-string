@@ -43,19 +43,19 @@ Esta sección compara cómo cada lenguaje trata el tipo string. Leé cada punto 
 
 ---
 
-### 1. ¿El tipo es parte del lenguaje en algún nivel?
+### 1. ¿El tipo string es parte del lenguaje en algún nivel?
 
-**C:** No existe un tipo `string` en el lenguaje. Un string es un arreglo de `char` con una convención: termina en el carácter nulo `'\0'`. El lenguaje provee literales de cadena (`"hola"`) que son objetos reales almacenados en memoria estática de solo lectura, y permite inicializar arreglos con ellos — pero no hay un tipo propiamente dicho ni operadores que operen sobre él.
+**C:** No existe un tipo `string` en el lenguaje. Un string es un arreglo de `char` con una convención: termina en el carácter nulo `'\0'`. El lenguaje provee literales de cadena (`"hola"`) que son objetos reales almacenados en memoria estática de solo lectura, y permite inicializar arreglos con ellos — pero no hay un tipo string propiamente dicho ni operadores que operen sobre él.
 
-**Python:** `str` es un tipo nativo del lenguaje con soporte sintáctico de primera clase: literales con comillas simples o dobles, triple-quoted strings, f-strings, y operadores `+`, `*`, `in`, entre otros.
+**Python:** El tipo string `str` es nativo del lenguaje con soporte sintáctico de primera clase: literales con comillas simples o dobles, triple-quoted strings, f-strings, y operadores `+`, `*`, `in`, entre otros.
 
 ---
 
-### 2. ¿El tipo es parte de la biblioteca?
+### 2. ¿El tipo string es parte de la biblioteca?
 
-**C:** `<string.h>` provee funciones para operar sobre strings (`strlen`, `strcpy`, `strcmp`, etc.), pero el tipo en sí no es de ninguna biblioteca — es solo `char *`. En este laboratorio no usamos `<string.h>`: implementamos las operaciones nosotros.
+**C:** `<string.h>` provee funciones para operar sobre strings (`strlen`, `strcpy`, `strcmp`, etc.), pero el tipo string en sí no pertenece a ninguna biblioteca — es solo la convención `char *` terminada en `'\0'`. En este laboratorio no usamos `<string.h>`: implementamos las operaciones nosotros.
 
-**Python:** `str` está definido en el runtime de Python. Sus métodos (`upper()`, `split()`, `find()`, etc.) son parte del objeto mismo, no de una biblioteca separada que haya que importar.
+**Python:** El tipo `str` está definido en el runtime de Python. Sus métodos (`upper()`, `split()`, `find()`, etc.) son parte del objeto mismo, no de una biblioteca separada que haya que importar.
 
 ---
 
@@ -69,28 +69,42 @@ Esta sección compara cómo cada lenguaje trata el tipo string. Leé cada punto 
 
 ### 4. ¿Cómo se resuelve la alocación de memoria?
 
-**C:** Manual. El programador decide dónde vive el string:
-- En el **stack**: `char s[] = "hola"` — válido solo mientras el stack frame existe.
-- En memoria **estática**: un literal `"hola"` — vive toda la ejecución, pero es de solo lectura.
-- En el **heap**: `malloc(n)` — el programador debe liberar con `free`.
+Antes de responder, conviene tener claro dónde puede vivir la memoria en un programa C:
 
-**Python:** Automática. El garbage collector (reference counting + cycle collector) maneja la vida útil de cada objeto string. El programador nunca llama a `malloc` ni `free`.
+- **Stack (pila):** cada vez que se llama a una función, el sistema reserva automáticamente un bloque de memoria llamado *stack frame* para sus variables locales. Cuando la función retorna, ese frame se destruye y toda la memoria que contenía deja de ser válida. Es rápido pero tiene vida útil limitada.
+- **Heap (montículo):** memoria de larga duración que el programador reserva explícitamente con `malloc` y libera con `free`. Vive más allá del retorno de las funciones, pero el programador es responsable de liberarla.
+- **Memoria estática:** zona reservada al inicio del programa para literales y variables globales. Vive toda la ejecución.
+
+**C:** Manual. El programador decide dónde vive el string:
+- En el **stack**: `char s[] = "hola"` — válido solo mientras el stack frame de la función existe.
+- En memoria **estática**: un literal `"hola"` — vive toda la ejecución, pero es de solo lectura.
+- En el **heap**: `malloc(n)` — el programador debe liberar con `free` cuando ya no lo necesite.
+
+**Python:** Automática. El garbage collector maneja la vida útil de cada objeto string: cuando ninguna variable referencia un string, su memoria se libera sola. El programador nunca llama a `malloc` ni `free`.
 
 ---
 
 ### 5. ¿El tipo tiene mutabilidad o es inmutable?
 
-**C:** Depende de cómo se creó. Un arreglo (`char s[] = "hola"`) es mutable: se puede modificar `s[0] = 'H'`. Un literal de cadena (`char *s = "hola"`) es de solo lectura: modificarlo es comportamiento indefinido.
+Un tipo es **mutable** si se pueden cambiar sus contenidos después de crearlo. Es **inmutable** si cualquier "cambio" produce un nuevo valor en lugar de modificar el original.
 
-**Python:** Los strings son **inmutables**. Cualquier operación que "modifica" un string crea un nuevo objeto. `s = s.upper()` no modifica `s` — reasigna la variable a un nuevo string.
+**C:** Depende de dónde vive el string:
+- `char s[] = "hola"` — copia los caracteres al stack. Es **mutable**: `s[0] = 'H'` funciona y modifica el contenido en el lugar.
+- `char *s = "hola"` — apunta al literal en memoria estática de solo lectura. Es **inmutable de facto**: `s[0] = 'H'` compila pero produce comportamiento indefinido en ejecución (generalmente un crash).
+
+La distinción entre estas dos formas es sutil y fuente de bugs comunes en C.
+
+**Python:** Los strings son siempre **inmutables**. No existe ninguna operación que modifique un string en el lugar. `s = s.upper()` no toca el string original — crea uno nuevo y reasigna la variable. Esto elimina toda una clase de bugs, a costa de que operaciones como concatenación en un loop sean menos eficientes.
 
 ---
 
 ### 6. ¿El tipo es un *first class citizen*?
 
-**C:** No completamente. No se puede asignar un string con `=` (excepto en la inicialización), ni comparar con `==` (compara punteros, no contenido), ni copiar con `=`. Hay que usar funciones (`strcpy`, `strcmp`) o implementarlas.
+Un tipo es *first class citizen* (ciudadano de primera clase) en un lenguaje si puede usarse en todos los contextos donde se usa cualquier otro valor: asignarse a variables, pasarse como argumento, retornarse desde funciones, compararse, almacenarse en colecciones. Un entero en C es un ejemplo clásico de first class citizen: podés hacer `int a = b`, `if (a == b)`, `return a`, sin restricciones. La pregunta es si los strings tienen ese mismo estatus.
 
-**Python:** Sí. Un string se puede asignar, comparar, pasar como argumento, retornar, incluir en colecciones y usar en expresiones exactamente igual que un entero o un booleano.
+**C:** No. Un string no se puede asignar con `=` (excepto en la inicialización de un arreglo), ni comparar con `==` (compara las direcciones de memoria, no el contenido), ni copiar con `=`. Para cada operación hay que usar funciones (`strcpy`, `strcmp`) o, como en este laboratorio, implementarlas.
+
+**Python:** Sí. Un string se comporta exactamente igual que un entero o cualquier otro valor: `s = t`, `s == t`, `return s`, `lista.append(s)` funcionan sin restricciones ni funciones auxiliares.
 
 ---
 
