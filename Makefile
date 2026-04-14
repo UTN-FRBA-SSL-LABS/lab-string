@@ -15,9 +15,8 @@ StringTest: StringTest.c String.o
 ConversionTest: ConversionTest.c Conversion.o String.o
 	$(CC) $(CFLAGS) ConversionTest.c Conversion.o String.o -o ConversionTest
 
-test: StringTest ConversionTest
-	./StringTest
-	./ConversionTest
+test:
+	@bash test_local.sh
 
 # ── Programas ─────────────────────────────────────────────────────────────────
 enlineas: enlineas.c
