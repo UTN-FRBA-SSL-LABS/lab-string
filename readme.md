@@ -572,9 +572,16 @@ _(SI o NO)_
 
 - `String.c` con todas las funciones implementadas y tests pasando
 - `Conversion.c` con `ToInteger` corregida y tests pasando
-- `make test` sin errores
 - Los 5 programas funcionando: `make all`
 - Push a `main`
+
+Verificá tu puntaje localmente antes de pushear:
+
+```bash
+make test
+```
+
+Cuando estés lista/o, commiteá y pusheá:
 
 ```bash
 git add .
@@ -582,4 +589,4 @@ git commit -m "Implementacion completa del laboratorio strings"
 git push
 ```
 
-El CI corre automáticamente. En la pestaña **Actions** podés ver qué checks pasan y cuáles fallan.
+> **Tip:** el workflow de corrección solo se activa cuando pusheás cambios en archivos `.c` o `.md`. Para todo lo demás, `make test` te da el mismo resultado sin consumir minutos de GitHub Actions.
