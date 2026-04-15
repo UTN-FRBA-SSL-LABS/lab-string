@@ -570,23 +570,33 @@ _(SI o NO)_
 
 ## Entrega
 
-- `String.c` con todas las funciones implementadas y tests pasando
-- `Conversion.c` con `ToInteger` corregida y tests pasando
-- Los 5 programas funcionando: `make all`
-- Push a `main`
+### Checklist
 
-Verificá tu puntaje localmente antes de pushear:
+- [ ] `String.c` con todas las funciones implementadas y tests pasando
+- [ ] `Conversion.c` con `ToInteger` corregida y tests pasando
+- [ ] Los 5 programas funcionando (`make all`)
+- [ ] `make test` pasa localmente
+- [ ] Todo pusheado a `main`
+
+### Verificación local
+
+Antes de hacer push, verificá tu puntaje con:
 
 ```bash
 make test
 ```
 
-Cuando estés lista/o, commiteá y pusheá:
+**Flujo recomendado:** hacé commits frecuentes mientras avanzás, usá `make test` para verificar tu progreso, y dejá el push para cuando una parte esté realmente lista.
 
-```bash
-git add .
-git commit -m "Implementacion completa del laboratorio strings"
-git push
-```
+### Corrección automática
 
-> **Tip:** el workflow de corrección solo se activa cuando pusheás cambios en archivos `.c` o `.md`. Para todo lo demás, `make test` te da el mismo resultado sin consumir minutos de GitHub Actions.
+Cuando pusheás cambios en archivos `.c` o `.md`, GitHub ejecuta el workflow de corrección que valida los mismos checks y calcula tu puntaje oficial.
+
+> ⚠️ **Evitá pushes innecesarios.** Cada ejecución consume cómputo en servidores de GitHub — un recurso compartido. `make test` te da el mismo resultado en tu terminal sin costo.
+
+Para ver los resultados:
+
+1. Entrá a tu repositorio en GitHub
+2. Hacé click en la pestaña **Actions**
+3. Hacé click en la ejecución más reciente → job **Autograding**
+4. Al final del job vas a ver la tabla con el resultado de cada check y el puntaje total
